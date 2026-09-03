@@ -1,4 +1,7 @@
-from src.nlp_disaster_tweets.predict import DisasterTweetPredictor
+from nlp_disaster_tweets.predict import DisasterTweetPredictor
+
+
+import pytest
 
 
 def test_predict_returns_valid_range_and_deterministic(
@@ -15,3 +18,10 @@ def test_predict_returns_valid_range_and_deterministic(
 
     # التحقق من الحتمية (Deterministic output)
     assert pred1 == pred2
+
+
+def test_predictor_raises_when_model_missing(tmp_path):
+    missing_model = tmp_path / "missing_model.onnx"
+
+    with pytest.raises(FileNotFoundError):
+        DisasterTweetPredictor.load(missing_model)

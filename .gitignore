@@ -31,3 +31,6 @@ models/*.onnx
 
 # Logs
 *.log
+.coverage
+coverage.xml
+htmlcov/

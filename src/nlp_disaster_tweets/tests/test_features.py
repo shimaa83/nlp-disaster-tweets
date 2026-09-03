@@ -1,5 +1,5 @@
 import pytest
-from src.nlp_disaster_tweets.features import TextPreprocessor
+from nlp_disaster_tweets.features import TextPreprocessor
 
 
 @pytest.fixture

@@ -32,22 +32,39 @@ async def lifespan(app: FastAPI):
     """Lifespan context manager to load the ONNX model ONCE at startup."""
     settings = get_settings()
     setup_logging(log_level=settings.log_level)
-    logger.info("Initializing API application...")
+
+    logger.info(
+        "Initializing API application. ONNX path: %s",
+        settings.onnx_path,
+    )
 
     try:
-        # تحميل نموذج ONNX في الذاكرة عند بداية تشغيل الخادم
-        predictor = DisasterTweetPredictor.load(settings.onnx_path)
-        ml_models["predictor"] = predictor
         logger.info(
-            f"ONNX Model successfully loaded into memory from {settings.onnx_path}"
+            "Checking ONNX model path. Exists: %s",
+            settings.onnx_path.exists(),
         )
-    except Exception as e:
-        logger.error(f"Model load failure at startup: {str(e)}")
+
+        if not settings.onnx_path.exists():
+            raise FileNotFoundError(f"ONNX model not found at: {settings.onnx_path}")
+
+        predictor = DisasterTweetPredictor.load(settings.onnx_path)
+
+        ml_models["predictor"] = predictor
+
+        logger.info(
+            "ONNX Model successfully loaded into memory from %s",
+            settings.onnx_path,
+        )
+
+    except Exception:
+        logger.exception(
+            "Model load failure at startup. ONNX path: %s",
+            settings.onnx_path,
+        )
         ml_models["predictor"] = None
 
     yield
 
-    # عند إغلاق التطبيق
     ml_models.clear()
     logger.info("Cleaning up application resources...")
 

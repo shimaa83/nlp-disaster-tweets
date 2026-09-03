@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 from fastapi.testclient import TestClient
-from src.nlp_disaster_tweets.api.main import app, ml_models
+from nlp_disaster_tweets.api.main import app, ml_models
 
 
 def test_health_endpoint_healthy(client: TestClient):
