@@ -1,0 +1,50 @@
+[project]
+name = "nlp-disaster-tweets"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "shimaa83", email = "alshimaa.abdelraof@gmail.com" }
+]
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "catboost>=1.2.10",
+    "fastapi>=0.141.1",
+    "lightgbm>=4.7.0",
+    "matplotlib>=3.11.1",
+    "nltk>=3.10.3",
+    "numpy>=2.0,<2.3",
+    "onnx>=1.22.0",
+    "onnxruntime>=1.29.0",
+    "pandas>=3.0.5",
+    "pydantic>=2.13.5",
+    "pydantic-settings>=2.15.0",
+    "python-json-logger>=4.2.0",
+    "scikit-learn>=1.9.0",
+    "seaborn>=0.13.2",
+    "skl2onnx>=1.20.0",
+    "tokenizers>=0.23.1",
+    "uvicorn>=0.52.4",
+    "wordcloud>=1.9.6",
+]
+
+[project.scripts]
+nlp-disaster-tweets = "nlp_disaster_tweets:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "httpx>=0.28.1",
+    "pre-commit>=4.6.2",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.5",
+]
+
+[tool.pytest.ini_options]
+addopts = "--cov=src/nlp_disaster_tweets --cov-fail-under=70 --cov-report=term-missing"
+testpaths = ["tests"]
